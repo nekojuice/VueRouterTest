@@ -1,8 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+  //createWebHashHistory,
+  //createMemoryHistory
+} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
+  // HTML5 模式
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Hash 模式 用domain/#/...號接上網址不會傳送到伺服端
+  //history: createWebHashHistory(import.meta.env.BASE_URL),
+  // Memory 模式 不會有歷史紀錄
+  //history: createMemoryHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -31,7 +41,7 @@ const router = createRouter({
       // 可搭配 regex
       // # regex 基礎不好
       //path: '/:pathMatch(.*)*',
-      path: '/:pathMatch(\\d+)',
+      path: '/regex/:pathMatch(\\d+)',
       name: 'NotFound',
       component: () => import('@/views/NotFound.vue')
     },
