@@ -7,7 +7,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      // 別名，可設巢狀規則外路徑
+      // 也可以用陣列設定 alias: ['/people', 'list'...]
+      alias: '/home'
     },
     {
       path: '/about',
@@ -52,6 +55,45 @@ const router = createRouter({
       //strict: true,
       name: 'case1',
       component: () => import('@/views/CaseSensitiveView.vue')
+    },
+    {
+      // 巢狀父子嵌套路由
+      path: '/parent/:id',
+      name: 'parent',
+      component: () => import('@/views/4_ParentView.vue'),
+      children: [
+        { path: '', component: () => import('@/views/4_ChildrenView.vue') },
+        { path: 'add404', component: () => import('@/views/NotFound.vue') }
+      ]
+    },
+    {
+      //
+      path: '/namedroutes/:username',
+      name: 'namedroutes',
+      component: () => import('@/views/6_named-routes.vue')
+    },
+    {
+      // 比如 sidebar 和 main 為兩個 view 需同級渲染
+      path: '/namedviews/',
+      name: 'namedviews',
+      // 注意s
+      components: {
+        default: () => import('@/views/7_named-views.vue'),
+        // LeftSidebar: LeftSidebar 的缩写
+        LeftSidebar: () => import('@/views/OrderCheck1.vue'),
+        // 它们与 `<router-view>` 上的 `name` 属性匹配
+        RightSidebar: () => import('@/views/OrderCheck2.vue')
+      }
+    },
+    {
+      // 重新導向
+      // 可以用來抓錯?
+      path: '/cat',
+      redirect: '/'
+      // 也可以用命名視圖
+      //,redirect: { name: 'homepage' }
+      // beforeEnter 不會被觸發?
+      // `/`開頭: 絕對位置， 沒有`/`開頭: 相對位置
     }
   ]
 })
