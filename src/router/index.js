@@ -4,7 +4,7 @@ import {
   //createWebHashHistory,
   //createMemoryHistory
 } from 'vue-router'
-//import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   // HTML5 模式
@@ -14,14 +14,25 @@ const router = createRouter({
   // Memory 模式 不會有歷史紀錄
   //history: createMemoryHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView,
+      // 別名，可設巢狀規則外路徑
+      // 也可以用陣列設定 alias: ['/people', 'list'...]
+      alias: '/home'
+    },
+    // 無效的方法
     // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: HomeView,
-    //   // 別名，可設巢狀規則外路徑
-    //   // 也可以用陣列設定 alias: ['/people', 'list'...]
-    //   alias: '/home'
+    //   path: '/layout',
+    //   name: 'LayoutView',
+    //   components: {
+    //     default: HomeView,
+    //     NavBar: () => import('@/components/NavBar.vue'),
+    //     FooterComp: () => import('@/components/FooterComp.vue')
+    //   }
     // },
+    // 有效的方法
     {
       path: '/layout',
       component: () => import('@/views/LayoutView.vue'),
