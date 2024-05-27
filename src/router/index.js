@@ -4,7 +4,7 @@ import {
   //createWebHashHistory,
   //createMemoryHistory
 } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+//import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   // HTML5 模式
@@ -14,13 +14,27 @@ const router = createRouter({
   // Memory 模式 不會有歷史紀錄
   //history: createMemoryHistory(import.meta.env.BASE_URL),
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: HomeView,
+    //   // 別名，可設巢狀規則外路徑
+    //   // 也可以用陣列設定 alias: ['/people', 'list'...]
+    //   alias: '/home'
+    // },
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      // 別名，可設巢狀規則外路徑
-      // 也可以用陣列設定 alias: ['/people', 'list'...]
-      alias: '/home'
+      path: '/layout',
+      component: () => import('@/views/LayoutView.vue'),
+      children: [
+        {
+          path: '', // 預設子路由
+          components: {
+            default: () => import('@/views/LayoutView.vue'),
+            NavBar: () => import('@/components/NavBar.vue'),
+            FooterComp: () => import('@/components/FooterComp.vue')
+          }
+        }
+      ]
     },
     {
       path: '/about',
@@ -72,7 +86,7 @@ const router = createRouter({
       name: 'parent',
       component: () => import('@/views/4_ParentView.vue'),
       children: [
-        { path: '', component: () => import('@/views/4_ChildrenView.vue') },
+        { path: 'dog', component: () => import('@/views/4_ChildrenView.vue') },
         { path: 'add404', component: () => import('@/views/NotFound.vue') }
       ]
     },
@@ -83,6 +97,7 @@ const router = createRouter({
       component: () => import('@/views/6_named-routes.vue')
     },
     {
+      // https://router.vuejs.org/zh/guide/essentials/named-views.html
       // 比如 sidebar 和 main 為兩個 view 需同級渲染
       path: '/namedviews/',
       name: 'namedviews',
